@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>면접 질문메이커 표지</title>
+    <style>
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body {
+            font-family: 'GmarketSansMedium', serif; /* 기본 폰트 설정 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #faf3ea;
+            height: 100vh;
+            color: rgb(13 60 38);
+        }
+        .container {
+            width: 80%;
+            height: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            background: #faf3ea;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 2px solid rgb(13 60 38);
+            animation: fadeIn 1s ease-in-out; /* 페이지 로드 시 애니메이션 */
+        }
+        .header, .footer {
+            text-align: center;
+            animation: slideIn 1s ease-in-out; /* 페이지 로드 시 애니메이션 */
+        }
+        .header .sub-title {
+            font-size: 1.4rem; /* 폰트 크기 변경 */
+            margin: 5px 0;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            margin: 5px 0;
+            font-weight: normal;
+        }
+        .header h2 {
+            font-size: 2.8rem;
+            margin: 10px 0;
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .info div {
+            display: flex;
+            align-items: center;
+        }
+        .info label {
+            margin-right: 10px;
+        }
+        .info button {
+            border: 1px solid rgb(13 60 38);
+            padding: 5px 10px;
+            font-size: 1rem;
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .info button:active {
+            background-color: rgba(13, 60, 38, 0.43);
+            transform: scale(0.95);
+        }
+        .number-box button {
+            border: 1px solid rgb(13 60 38);
+            padding: 5px;
+            width: 30px;
+            text-align: center;
+            margin-left: 5px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .number-box button:active {
+            background-color: rgba(13, 60, 38, 0.549);
+            transform: scale(0.95);
+        }
+        .instructions {
+            border: 1px solid rgb(13 60 38);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .instructions p {
+            margin: 10px 0;
+        }
+        .highlight {
+            background: rgba(13, 60, 38, 0.259);
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+            border: 2px solid rgb(13 60 38);
+        }
+        .button {
+            display: inline-block;
+            background-color: #faf3ea00;
+            color: rgb(13 60 38);
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            font-family: 'GmarketSansMedium', serif;
+        }
+        .button:hover {
+            background: rgba(13, 60, 38, 0.43);
+            transform: scale(1.05);
+        }
+        .footer {
+            font-weight: bold;
+            padding: 10px 0;
+            border-top: 1px solid rgb(13 60 38);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.info button, .number-box button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.style.backgroundColor = 'rgba(13, 60, 38, 0.43)';
+                    this.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 300);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="sub-title">제 4교시</div>
+            <h1>2024년도 한동대 빅데이터 캠프 7월 프로젝트 문제지</h1>
+            <h2>면접 질문 영역</h2>
+        </div>
+        <div class="info">
+            <div>
+                <label for="name">성명</label>
+                <button id="name" name="name">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+            </div>
+            <div class="number-box">
+                <label for="number">면접 번호</label>
+                <button id="number" name="number">&nbsp</button>
+                <button size="1" maxlength="1">&nbsp</button>
+                <button size="1" maxlength="1">&nbsp</button>
+                <button size="1" maxlength="1">&nbsp</button>
+                <button size="1" maxlength="1">&nbsp</button>
+                <button size="1" maxlength="1">&nbsp</button>
+                <button size="1" maxlength="1">&nbsp</button>
+                <button size="1" maxlength="1">&nbsp</button>
+            </div>
+        </div>
+        <div class="instructions">
+            <p>○ 문제지의 해당란에 본인의 정보를 정확히 기입하시오.</p>
+            <p>○ 문제지에 입력되는 모든 데이터는 다른 목적을 위해 사용되지 않습니다.</p>
+            <p>○ 본 질문 답변기는 실제 면접 응시자들의 데이터를 기반으로 출력되는 문장입니다.</p>
+        </div>
+        <div class="highlight">
+            <button class="button" onclick="location.href='./maker.html'">준비되면 클릭하여 면접 질문 페이지로 넘어가시오.</button>
+        </div>
+        <div class="footer">
+            <p>※ 성실히 임해주시길 바랍니다.</p>
+            <p>팀 다음</p>
+        </div>
+    </div>
+</body>
+</html>

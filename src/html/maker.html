@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>면접 질문 메이커</title>
+    
+    <style>
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'GmarketSansMedium', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #faf3ea;
+            font-weight: 100;
+        }
+
+        header {
+            background-color: #faf3ea;
+            color: #faf3ea;
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        #intro {
+            text-align: center;
+            padding: 50px;
+            background-color:#faf3ea;
+            color: #faf3ea;
+            width: 80%;
+            max-width: 1200px;
+            margin-top: 1px;
+            box-sizing: border-box;
+            animation: fadeIn 2s ease-in-out;
+        }
+        #intro h1 {
+            font-family: 'GmarketSansMedium', serif;
+            font-size: 3rem;
+            margin: 0;
+            color: rgb(13 60 38);
+            transition: color 0.3s;
+        }
+        #intro p {
+            font-size: 1.5rem;
+            margin-top: 5px;
+            color: rgb(13 60 38);
+        }
+        #intro h1:hover {
+            color: #f4e2cb;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+                /* 도넛 모양 로딩 애니메이션 스타일 */
+        .loading-logo {
+            margin-top: 20px;
+            border: 5px solid rgba(13, 60, 38, 0.345); /* Light grey */
+            border-top: 5px solid rgb(13 60 38); /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-logo .countdown {
+            position: absolute;
+            font-size: 1rem;
+            font-weight: bold;
+            color:rgb(13 60 38);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .panel {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid rgb(237 225 209);
+            border-radius: 10px;
+            margin: 10px;
+            background: rgba(237, 225, 209, 0.484);
+            box-shadow: 0 4px 8px #faf3ea00;
+            transition: transform 0.3s;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .panel:hover {
+            transform: translateY(-10px);
+        }
+
+        .panel h2 {
+            text-align: center;
+            color: rgb(13 60 38);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-group button, .submit-btn {
+            padding: 15px;
+            background-color: #faf3ea;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: rgb(13 60 38);
+            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
+            font-family: 'GmarketSansMedium', serif;
+        }
+        .btn-group button:hover, .submit-btn:hover {
+            background-color: rgba(13, 60, 38, 0.259);
+        }
+        .btn-group button:active, .submit-btn:active {
+            transform: scale(1.05);
+        }
+
+        .btn-group button.clicked, .submit-btn.clicked {
+            background-color: rgba(13, 60, 38, 0.43);
+        }
+
+        .upload-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .upload-section textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-family: 'GmarketSansMedium', serif;
+            font-size: 1rem;
+            border: 1px solid rgb(13 60 38);
+            border-radius: 5px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            background-color: #faf3ea;
+        }
+
+        .right-panel .content {
+            border: 1px solid  #faf3ea00; /* 오른쪽 패널 테두리 색상 */
+            padding: 20px;
+            border-radius: 5px;
+            min-height: 300px;
+            background: #faf3ea; /* 오른쪽 패널 배경색 */
+        }
+        
+
+        .submit-btn {
+            margin-top: 5px;
+            padding: 15px 30px;
+            background-color: rgba(13, 60, 38, 0.259);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+            font-family: 'GmarketSansMedium', serif;
+        }
+        .submit-btn:hover {
+            background-color:  rgba(13, 60, 38, 0.43);
+        }
+        .submit-btn.active {
+            background-color: rgba(13, 60, 38, 0.575);
+        }
+
+        /* .interview-box의 보더 값을 설정 */
+        .interview-box {
+            display: none;
+            flex-direction: column;
+            align-items: center; /* 수평 중앙 정렬 */
+            justify-content: center; /* 수직 중앙 정렬 */
+            gap: 20px;
+            background-color: #faf3ea;
+            padding: 20px;
+            
+            border-radius: 5px; /* 보더 라운드 값도 설정 */
+        }
+
+
+        .box {
+            
+            border-radius: 5px;
+            padding: 20px;
+            background: #faf3ea;
+            
+        }
+
+        .question, .answer {
+            padding: 10px 0;
+            border-top: 1px solid #faf3ea;
+        }
+
+        .question:first-child, .answer:first-child {
+            border-top: none;
+            background-color: #faf3ea;
+        }
+
+        .question {
+            font-weight: bold;
+            background-color: #faf3ea;
+        }
+
+        .divider {
+            width: 80%;
+            max-width: 1200px;
+            border: none;
+            border-top: 2px solid rgb(13 60 38);
+            margin: 20px auto;
+        }
+
+        .divider-vertical {
+            width: 1.5px;
+            background-color: rgb(13 60 38);
+            margin: 0 20px;
+        }
+
+        .vertical-line-right {
+            position: fixed;
+            top: 0;
+            right: 30px;
+            width: 2px;
+            height: 100%;
+            background-color: rgb(13 60 38);
+            z-index: 1000;
+        }
+        
+        .vertical-line-left {
+            position: fixed;
+            top: 0;
+            left: 30px;
+            width: 2px;
+            height: 100%;
+            background-color: rgb(13 60 38);
+            z-index: 1000;
+        }
+
+        #intro {
+            position: relative;
+            text-align: center;
+            padding: 50px;
+            background-color:#faf3ea;
+            color:#faf3ea;
+            width: 80%;
+            max-width: 1200px;
+            height: 200px;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            box-sizing: border-box;
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .oval-box {
+            position: absolute;
+            top: 80%;
+            left: 10px;
+            transform: translateY(-50%);
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 50px;
+            background-color: #faf3ea;
+            border-radius: 50px;
+            color: rgb(13 60 38);
+            font-size: 1.2rem;
+            font-family: 'GmarketSansMedium', serif;
+            border: 2px solid rgb(13 60 38);
+        }
+
+        .corner-mark {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'GmarketSansMedium', serif;
+            font-size: 1.5rem;
+            color: rgb(13 60 38);
+        }
+
+        .light-gray {
+            color:rgba(13, 60, 38, 0.605); 
+        }
+
+        #intro h1 {
+            font-family: 'GmarketSansMedium', serif;
+            font-size: 4rem;
+            margin: 0;
+            color: rgb(13 60 38);
+        }
+        #intro p {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            color: rgb(13 60 38);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .sentence {
+            opacity: 0;
+            animation: fadeIn 2s forwards; /* 페이드 인 애니메이션 추가 */
+            text-align: center; /* 중앙 정렬 */
+            font-size: 1.5rem; /* 문장 크기 */
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            background: #faf3ea;
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedData = {
+                job: null,
+                gender: null,
+                career: null,
+                coverLetter: null
+            };
+            let stopShowingSentences = false; // 랜덤 문장 표시 중단 변수
+        
+            function setActiveButton(groupSelector, dataType) {
+                const buttons = document.querySelectorAll(groupSelector + ' button');
+                buttons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        buttons.forEach(btn => btn.classList.remove('active', 'clicked'));
+                        this.classList.add('active', 'clicked');
+                        selectedData[dataType] = this.getAttribute('data-' + dataType);
+                        console.log(`${dataType}: ${selectedData[dataType]} 버튼이 클릭되었습니다.`);
+                    });
+                });
+            }
+        
+            setActiveButton('.job-group', 'job');
+            setActiveButton('.gender-group', 'gender');
+            setActiveButton('.career-group', 'career');
+        
+            const submitButton = document.querySelector('.submit-btn');
+            submitButton.addEventListener('click', function() {
+                this.classList.toggle('active');
+                this.classList.toggle('clicked');
+                console.log('질문 생성하기 버튼이 클릭되었습니다.');
+                
+                const coverLetterTextArea = document.getElementById('coverLetter');
+                selectedData.coverLetter = coverLetterTextArea.value;
+        
+                sendDataToBackend(selectedData);
+                showRandomSentences();
+            });
+        
+            function sendDataToBackend(data) {
+                const payload = {
+                    occupation: data.job,
+                    gender: data.gender,
+                    experience: data.career,
+                    cover_letter: data.coverLetter
+                };
+        
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://20.243.160.110:8000/stream_chat/', true);
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log('서버 응답:', xhr.responseText);
+                        stopShowingSentences = true; // 응답이 오면 랜덤 문장 표시 중단
+                        displayInterviewData(JSON.parse(xhr.responseText)); // 서버에서 받은 데이터 표시
+                    }
+                };
+        
+                // 스트리밍 응답 처리
+                xhr.onprogress = function() {
+                    const responseText = xhr.responseText;
+                    const data = JSON.parse(responseText);
+                    stopShowingSentences = true; // 응답이 오면 랜덤 문장 표시 중단
+                    displayInterviewData(data);
+                };
+        
+                xhr.send(JSON.stringify({ content: JSON.stringify(payload) }));
+            }
+        
+            function showRandomSentences() {
+                const sentences = [
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 회사와 직무에 대해 조사하세요 💡 <br><span class="light-gray">회사의 역사, 문화, 최근 뉴스와 면접 직무에 대해 깊이 있게 알아두세요.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 성공 경험과 실패 경험을 준비하세요 💡 <br><span class="light-gray">면접에서 자주 묻는 질문 중 하나는 성공과 실패 경험입니다. 이에 대한 답변을 미리 준비하세요.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 질문을 준비하세요 💡 <br><span class="light-gray">면접관에게 물어볼 질문을 준비하면 관심과 열정을 보여줄 수 있어요.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 적절한 복장을 선택하세요 💡 <br><span class="light-gray">회사의 분위기에 맞는 단정한 복장을 선택하세요.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 자신감을 가지세요 💡 <br><span class="light-gray">면접 내내 자신감을 가지고 답변하세요. 당신의 태도와 말투에서 자신감이 느껴져야 합니다.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 바디랭귀지를 신경 쓰세요 💡 <br><span class="light-gray">눈을 맞추고, 올바른 자세를 유지하며, 적절한 제스처를 사용하는 것이 중요해요.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 긍정적인 태도를 유지하세요 💡 <br><span class="light-gray">어떤 질문이 나와도 긍정적인 태도로 답변하세요. 문제 해결 능력과 도전 의식을 보여줄 수 있는 기회로 삼으세요.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 구체적인 예시를 들어 답변하세요 💡 <br><span class="light-gray">가능한 한 구체적인 사례와 데이터를 통해 답변을 뒷받침하세요.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 시간 엄수를 중요하게 생각하세요 💡 <br><span class="light-gray">면접 시간에 늦지 않도록 여유 있게 출발하세요. 약속 시간을 지키는 것은 기본적인 예의이자 신뢰성을 보여주는 중요한 요소입니다.</span> `,
+                    `✏️ 질문과 답변 생성중  ✏️ <br><br>💡 마지막 인상을 잘 남기세요 💡 <br><span class="light-gray">면접이 끝날 때 감사를 표하고, 좋은 하루 되시라는 인사를 잊지 마세요. 마지막까지 좋은 인상을 남기는 것이 중요합니다.</span> `
+                ];
+        
+                const randomSentences = sentences.sort(() => 0.5 - Math.random()).slice(0, 5);
+                const interviewBox = document.querySelector('.interview-box');
+                interviewBox.innerHTML = '';
+                interviewBox.style.display = 'flex';
+                
+                let currentIndex = 0;
+        
+                function showNextSentence() {
+                    if (stopShowingSentences) {
+                        return; // 랜덤 문장 표시 중단
+                    }
+        
+                    if (currentIndex > 0) {
+                        interviewBox.innerHTML = '';
+                    }
+                    if (currentIndex < randomSentences.length) {
+                        const sentence = document.createElement('div');
+                        sentence.classList.add('sentence');
+                        sentence.innerHTML = randomSentences[currentIndex];
+                        interviewBox.appendChild(sentence);
+        
+                        // 로딩 로고 및 카운트다운 추가
+                        if (currentIndex < randomSentences.length - 1) {
+                            const loadingLogo = document.createElement('div');
+                            loadingLogo.classList.add('loading-logo');
+        
+                            const countdown = document.createElement('div');
+                            countdown.classList.add('countdown');
+                            loadingLogo.appendChild(countdown);
+        
+                            let countdownValue = 10;
+                            countdown.textContent = countdownValue;
+        
+                            const countdownInterval = setInterval(() => {
+                                countdownValue--;
+                                countdown.textContent = countdownValue;
+                                if (countdownValue === 0) {
+                                    clearInterval(countdownInterval);
+                                }
+                            }, 1000);
+        
+                            interviewBox.appendChild(loadingLogo);
+                            loadingLogo.style.animation = `spin 10s linear forwards`;
+                        }
+        
+                        currentIndex++;
+                        setTimeout(showNextSentence, 10000);
+                    } else {
+                        interviewBox.style.display = 'none';
+                    }
+                }
+        
+                showNextSentence();
+            }
+        
+            function displayInterviewData(data) {
+                const interviewBox = document.querySelector('.interview-box');
+                
+                interviewBox.innerHTML = '';
+                interviewBox.style.display = 'flex';
+                interviewBox.style.background = 'rgba(237, 225, 209, 0.484)'; // 오른쪽 패널 배경색으로 변경
+                interviewBox.style.border = '2px rgba(237, 225, 209, 0.484)'; // 원하는 보더 색상으로 변경
+                
+            
+                const column1 = document.createElement('div');
+                const column2 = document.createElement('div');
+                const column3 = document.createElement('div');
+            
+                column1.classList.add('column');
+                column2.classList.add('column');
+                column3.classList.add('column');
+            
+                interviewBox.appendChild(column1);
+                interviewBox.appendChild(column2);
+                interviewBox.appendChild(column3);
+            
+                for (let i = 1; i <= Object.keys(data).length / 2; i++) {
+                    const question = data[`Question ${i}`];
+                    const answer = data[`Answer ${i}`];
+            
+                    if (question && answer) {
+                        const box = document.createElement('div');
+                        box.classList.add('box');
+                        
+                        const questionDiv = document.createElement('div');
+                        questionDiv.classList.add('question');
+                        questionDiv.textContent = question;
+                        
+                        const answerDiv = document.createElement('div');
+                        answerDiv.classList.add('answer');
+                        answerDiv.textContent = answer;
+                        
+                        box.appendChild(questionDiv);
+                        box.appendChild(answerDiv);
+                        
+                        if (i % 3 === 1) {
+                            column1.appendChild(box);
+                        } else if (i % 3 === 2) {
+                            column2.appendChild(box);
+                        } else {
+                            column3.appendChild(box);
+                        }
+                    }
+                }
+            }
+            
+            
+        });
+        
+    </script>
+</head>
+<body>
+    <header id="intro">
+        <p>2024년도 한동대 빅데이터 캠프 7월 프로젝트 문제지</p>
+        <h1>면접 질문 영역</h1>
+        <div class="corner-mark">팀 다음</div>
+        <div class="oval-box">
+            <p>4교시</p>
+        </div>    
+    </header>
+    <hr class="divider">
+    <div class="container">
+        <div class="panel left-panel">
+            <h2>정보 입력</h2>
+
+            <div class="btn-group job-group">
+                <label>직군 선택</label>
+                <button data-job="BM">관리직</button>
+                <button data-job="SM">영업직</button>
+                <button data-job="PS">공공서비스</button>
+                <button data-job="RND">연구직</button>
+                <button data-job="ICT">IT</button>
+                <button data-job="ARD">디자인</button>
+                <button data-job="MM">생산관리</button>
+            </div>
+            <div class="btn-group gender-group">
+                <label>성별 선택</label>
+                <button data-gender="FEMALE">여성</button>
+                <button data-gender="MALE">남성</button>
+            </div>
+            <div class="btn-group career-group">
+                <label>경력 선택</label>
+                <button data-career="NEW">신입</button>
+                <button data-career="EXPERIENCED">경력직</button>
+            </div>
+            
+            <div class="upload-section">
+                <label for="coverLetter">자기소개서 입력</label>
+                <textarea id="coverLetter" name="coverLetter" placeholder="자기소개서를 여기에 입력하세요..."></textarea>
+            </div>
+        </div>
+        <div class="divider-vertical"></div>
+        <div class="panel right-panel">
+            <h2>면접 질문 및 답변</h2>
+            <p>실제 해당 직군에 대한 면접을 진행한 사람들의 데이터를 기반으로 예상 면접 질문과 답변을 생성해 드립니다..</p>
+            <div >
+                <div class="interview-box"></div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <button class="submit-btn">질문 생성하기</button>
+    </footer>
+    <div class="vertical-line-right"></div>
+    <div class="vertical-line-left"></div>
+    <div class="interview-box">
+        <div class="loading-logo"></div>
+    </div>
+    
+</body>
+</html>
